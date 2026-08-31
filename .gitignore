@@ -1,0 +1,35 @@
+# ---- Python / Django (backend) ----
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+*.db
+backend/venv/
+backend/staticfiles/
+backend/media/
+backend/.env
+backend/.env.*
+*.log
+
+# ---- Node / Vite (frontend) ----
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.local
+frontend/.env.local
+frontend/.env.*.local
+
+# ---- Editor / OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# ---- Tooling / misc ----
+.codebuddy/
+backend.zip
+.codebuddy

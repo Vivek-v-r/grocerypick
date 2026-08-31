@@ -1,0 +1,46 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❓ WHY IS GROCERY PICK BETTER THAN DELIVERY APPS?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+It doesn't compete with delivery apps — it solves a different problem.
+
+┌─────────────────────┬──────────────────────────┬────────────────────────────┐
+│                     │ Swiggy / Zepto / Blinkit │ GroceryPick (My Project)  │
+├─────────────────────┼──────────────────────────┼────────────────────────────┤
+│ Who it serves      │ Individual home delivery │ Small local stores         │
+│                     │                          │ (kirana, standalone shops) │
+├─────────────────────┼──────────────────────────┼────────────────────────────┤
+│ Cost to store      │ High commission (25-30%) │ Zero commission             │
+├─────────────────────┼──────────────────────────┼────────────────────────────┤
+│ Team needed        │ Full tech + delivery     │ 1 store owner + 1 phone    │
+│                     │ fleet + marketing        │                            │
+├─────────────────────┼──────────────────────────┼────────────────────────────┤
+│ Delivery           │ 10-30 min                │ Free pickup, no minimum    │
+│                     │ Minimum order required   │                            │
+├─────────────────────┼──────────────────────────┼────────────────────────────┤
+│ Problem solved     │ Convenience of           │ Eliminate in-store wait    │
+│                     │ home delivery            │ (pre-order & grab in 1min) │
+├─────────────────────┼──────────────────────────┼────────────────────────────┤
+│ Group feature      │ Not available            │ Shared cart + bill split   │
+└─────────────────────┴──────────────────────────┴────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📢 KEY PITCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+"Large apps are great for home delivery, but small stores can't
+afford 30% commissions or manage delivery fleets. My system lets
+a local grocery store go online for pickup — customers pre-order,
+store prepares it, customer walks in and grabs it in 1 minute.
+No commission, no delivery cost, no waiting."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡 BONUS INSIGHT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This model is already proven globally:
+  • Walmart → "Buy Online, Pick Up In Store"
+  • Target → "Order Pickup"
+  • Amazon Fresh → "Pickup"
+
+My project brings that same convenience to small Indian kirana stores.

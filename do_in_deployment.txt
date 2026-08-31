@@ -1,0 +1,49 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 DEPLOYMENT CHECKLIST — GroceryPick
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ SET ENVIRONMENT VARIABLES (in Render/Railway dashboard)
+─────────────────────────────────────────────────────────────
+
+  DJANGO_SECRET_KEY        = <generate a long random string>
+  DJANGO_ALLOWED_HOSTS     = yourdomain.com,api.yourdomain.com
+  DJANGO_CORS_ALLOWED_ORIGINS = https://yourdomain.com
+  DJANGO_DEBUG             = False
+
+2️⃣ BACKEND DEPLOYMENT
+───────────────────────
+  Platform: Render / Railway
+  Build command: pip install -r requirements.txt
+  Start command: gunicorn groceryproject.wsgi --bind 0.0.0.0:$PORT
+  Collect static: python manage.py collectstatic --noinput
+  Run migrations: python manage.py migrate
+
+3️⃣ FRONTEND DEPLOYMENT
+───────────────────────
+  Platform: Vercel / Netlify
+  Build command: npm run build
+  Output directory: dist
+  Environment variable:
+    VITE_API_BASE_URL = https://your-backend-url.onrender.com/api
+
+4️⃣ DATABASE
+─────────────
+  For production: switch from SQLite to PostgreSQL
+  In settings.py, update DATABASES with PostgreSQL credentials
+  Or use platform's built-in PostgreSQL (Render provides this)
+
+5️⃣ MEDIA FILES (product images)
+─────────────────────────────────
+  Option A: Store images on Cloudinary/AWS S3 (recommended)
+  Option B: Serve via nginx reverse proxy pointing to /media/
+  Do NOT let Django serve media in production
+
+6️⃣ VERIFY
+──────────
+  □ Open frontend URL — app loads without errors
+  □ Test login/register flow
+  □ Test create product (admin)
+  □ Test place order
+  □ Test group creation and cart
+  □ Check browser console — no CORS errors
+  □ Check Django logs — no errors

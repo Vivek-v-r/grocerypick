@@ -1,0 +1,207 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📂 FILES TO UNDERSTAND FOR INTERVIEW (high-level only)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+═══ BACKEND (Django) ═══
+
+1. backend/store/models.py
+   └─ What it does: Defines all database tables (Product, Order, Customer, ShoppingGroup, etc.)
+   └─ Say: "Each class = one table. I used Django ORM so no raw SQL needed."
+
+2. backend/store/views.py
+   └─ What it does: All API logic — what happens when someone calls each URL
+   └─ Say: "Each function/class handles one endpoint. Takes request → does logic → returns JSON."
+
+3. backend/store/serializers.py
+   └─ What it does: Converts Python model data ↔ JSON format + validates input
+   └─ Say: "Serializers make sure data is clean before saving to DB. Also hide fields like passwords."
+
+4. backend/store/urls.py
+   └─ What it does: Maps URL paths to view functions
+   └─ Say: "Like a phone directory — when /api/products/ is called, it knows which view to run."
+
+5. backend/groceryproject/settings.py
+   └─ What it does: Project config — database, installed apps, auth, CORS, etc.
+   └─ Say: "One file controls everything. Change DB from SQLite to PostgreSQL by changing one line."
+
+6. backend/store/authentication.py
+   └─ What it does: Custom auth class that handles both admin tokens and customer tokens
+   └─ Say: "DRF's default TokenAuthentication only checks admin tokens. Mine falls back silently for customer tokens."
+
+═══ FRONTEND (React) ═══
+
+7. frontend/src/App.jsx
+   └─ What it does: Main routing — maps every URL path to a page component
+   └─ Say: "The brain of the frontend. Tells React which page to show for each route."
+
+8. frontend/src/services/api.js
+   └─ What it does: All backend API calls + Axios interceptors (auto-attaches token)
+   └─ Say: "Central file for talking to backend. Every component calls these functions instead of raw fetch."
+
+9. frontend/src/context/CustomerAuthContext.jsx
+   └─ What it does: Manages login state globally — isLoggedIn, token, customer info
+   └─ Say: "Stores login state in React Context so any component can check if user is logged in."
+
+10. frontend/src/pages/GroupsPage.jsx
+    └─ What it does: Orchestrates the group shopping feature — shows group list, cart, bill split
+    └─ Say: "The most complex page. Coordinates 4 components: GroupManager, SharedCart, BillSplitter, PaymentDashboard."
+
+11. frontend/src/components/GroupManager.jsx
+    └─ What it does: Create/join/list groups UI
+12. frontend/src/components/SharedCart.jsx
+    └─ What it does: Shared cart with add/delete/toggle items
+13. frontend/src/components/BillSplitter.jsx
+    └─ What it does: Equal/custom bill split options
+14. frontend/src/components/PaymentDashboard.jsx
+    └─ What it does: Shows who paid who hasn't, mark as paid button
+
+15. frontend/src/styles.css
+    └─ What it does: All styling in one file (no Tailwind, no CSS modules)
+    └─ Say: "Single CSS file keeps it simple. ~250 lines for group components."
+
+═══ PROJECT-LEVEL ═══
+
+16. final_flow.txt — Full user flow chart
+17. y_its_better.txt — Why this is better than delivery apps
+18. inspiration_story.txt — Origin story of pickup code feature
+19. do_in_deployment.txt — Deployment checklist
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 MINIMUM UNDERSTANDING PER FILE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For each file above, you should know:
+  ✅ What the file does (1 line)
+  ✅ Why you structured it that way (1 line)
+  ❌ NOT the exact code — just the purpose
+
+Trick: Don't memorize code. Memorize "I did X because Y reason."
+That's what interviewers want to hear.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🛠️ TECH STACK SUMMARY (copy-paste for interview)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BACKEND:
+  Python + Django 5.1        → Web framework (routing, ORM, admin panel)
+  Django REST Framework      → Turns Django into REST API
+  SQLite                     → Database (dev); PostgreSQL for production
+  django-cors-headers        → Allows React to talk to backend
+  PyJWT / Token Auth         → Authentication (admin + customer)
+  Pillow                     → Image upload handling
+
+FRONTEND:
+  React 18                   → UI library (components, hooks)
+  Vite                       → Build tool (faster than CRA)
+  React Router v6            → Page navigation (client-side routing)
+  Axios                      → HTTP client with interceptors
+  Vanilla CSS (single file)  → Styling (no Tailwind, no CSS modules)
+
+OTHER:
+  Git                        → Version control
+  QRServer API               → Generate UPI QR codes (free external API)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧠 WHAT YOU NEED TO KNOW BEFORE INTERVIEW (Basics Only)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+═══ DJANGO BASICS (know these) ═══
+
+  □ What is Django ORM?
+    » Write Python classes → auto-creates DB tables. No SQL needed.
+
+  □ What is MVT (Model-View-Template)?
+    » Model = DB table, View = request handler, Template = HTML.
+    » But DRF replaces Template with JSON serializers.
+
+  □ What is a serializer?
+    » Converts Python objects ↔ JSON. Also validates input data.
+
+  □ What is a migration?
+    » When you change models.py, migrations update the DB automatically.
+    » python manage.py makemigrations → python manage.py migrate
+
+  □ What are decorators? (@api_view, @permission_classes)
+    » Wraps a function to add behavior. @api_view makes a function an API endpoint.
+
+═══ REACT BASICS (know these) ═══
+
+  □ What is a component?
+    » A reusable UI piece. Returns JSX (HTML-like syntax in JavaScript).
+
+  □ What is useState?
+    » Stores data that changes (form inputs, loading state).
+    » When state updates, component re-renders.
+
+  □ What is useEffect?
+    » Runs code after render. Used for API calls.
+    » Empty [] = run once on page load.
+
+  □ What is Context API?
+    » Shares data across components without passing props manually.
+    » AuthContext stores login state — any component can use it.
+
+  □ What is React Router?
+    » Client-side navigation. Changes URL without page refresh.
+    » BrowserRouter → Routes → Route path="/products" → ProductsPage
+
+  □ What is an Axios interceptor?
+    » Runs before every API call. Attaches auth token automatically.
+
+═══ GENERAL BACKEND CONCEPTS (know these) ═══
+
+  □ REST API
+    » URLs represent resources: /api/products/, /api/orders/123/
+    » HTTP methods: GET (read), POST (create), PATCH (update), DELETE
+
+  □ Authentication vs Authorization
+    » AuthN = "Who are you?" (login + token)
+    » AuthZ = "What can you do?" (admin vs customer permissions)
+
+  □ CORS
+    » Browser security — blocks frontend (localhost:3000) calling backend (localhost:8000)
+    » django-cors-headers fixes this
+
+═══ YOUR PROJECT-SPECIFIC (definitely ask) ═══
+
+  □ Why two auth systems? (admin token vs customer token)
+    » Admin uses DRF's built-in Token model. Customer uses custom token field on Customer model.
+    » I created LenientTokenAuthentication so customer tokens don't crash admin auth.
+
+  □ How does bill splitting work?
+    » API calculates total → divides equally or custom → creates PaymentStatus per member.
+    » Each member can only mark their own payment as paid.
+
+  □ Why pickup mode instead of delivery?
+    » Target audience = small kirana stores. No delivery fleet needed.
+    » Proven model — Walmart, Target, Amazon all use "Buy Online, Pick Up In Store."
+
+  □ What was the hardest bug?
+    » DRF's TokenAuthentication was returning 401 for customer tokens before the view could check them.
+    » Fix: Created LenientTokenAuthentication that doesn't raise on token-not-found.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⏱️  30-SECOND PROJECT PITCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+"GroceryPick is a grocery pre-order and pickup system built with
+Django REST Framework and React. Customers browse products, place
+orders, and pick up from the store in 1-2 minutes — no waiting in
+line. Admins manage products and orders through a dashboard. The
+unique feature is group shopping — family or roommates can share a
+cart, add items together, and split the bill automatically. I also
+built an automated verification system for my first project, a Lost
+& Found Board with JWT auth and custom Q&A verification."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❓ QUESTIONS TO ASK THE INTERVIEWER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. "What does your current tech stack look like — do you use Django
+    or something else?"
+2. "What would a typical first project look like for a new developer
+    here?"
+3. "How does your team handle code reviews?"
+4. "What's the biggest technical challenge your team is facing?"
+
+(Asking questions shows confidence. Always ask at least 1.)

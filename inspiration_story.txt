@@ -1,0 +1,31 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡 INSPIRATION BEHIND THE PROJECT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 Pickup Code Feature
+───────────────────────
+Idea struck when my parents were arguing:
+  • Father: "Write a list, I'll go to the store"
+  • Mother: "Just go and call me what you need"
+
+I thought — why can't mother just order from home,
+and father just pick up? No list, no phone calls.
+
+→ That's how the pickup code was born.
+  Mom orders online → dad shows the code at store → grabs it in 1 min.
+
+👥 Shared Cart & Bill Splitting
+─────────────────────────────────
+Same thinking extended to roommates and families:
+  1 person can't track everyone's items → Shared cart
+  Everyone adds what they need → one bill → auto split
+
+→ Solves roommates' biggest headache:
+  "Who bought what? Who owes whom?"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 KEY TAKEAWAY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Every feature came from real household problems, not a textbook.
+That's why the project is practical and solves actual daily friction.

@@ -1,0 +1,108 @@
+                        ┌─────────────────────────────────────┐
+                        │         🛒 GROCERY PICK             │
+                        │    Smart Pre-Order & Pickup System   │
+                        └─────────────────────────────────────┘
+                                      │
+            ┌─────────────────────────┼─────────────────────────┐
+            │                         │                         │
+            ▼                         ▼                         ▼
+    ┌───────────────┐      ┌──────────────────┐      ┌──────────────────┐
+    │  🧑 GUEST     │      │  👤 CUSTOMER     │      │  🔧 ADMIN/OWNER │
+    │  (No Login)   │      │  (Logged In)     │      │  (Dashboard)     │
+    └───────┬───────┘      └────────┬─────────┘      └────────┬─────────┘
+            │                       │                         │
+            ▼                       ├──────────────────┐      │
+    ┌───────────────┐     ┌────────▼────────┐  ┌──────▼───────┐ │
+    │ Browse        │     │  🛍️ SHOP ALONE  │  │  👥 GROUP    │ │
+    │ Products      │     │                 │  │  SHOPPING    │ │
+    │ Search/Filter │     │ Add to Cart     │  │              │ │
+    └───────┬───────┘     │ Checkout        │  │ Create/Join  │ │
+            │             │ UPI / Pay Pickup │  │ Group        │ │
+            ▼             │ Track Order     │  │              │ │
+    ┌───────────────┐     │ Copy/Share #    │  │ Shared Cart  │ │
+    │ View Products │     │ Collect in 1min │  │ Add Items    │ │
+    │ See Prices    │     └─────────────────┘  │ See Who Added│ │
+    │ Read Desc     │                          │              │ │
+    │ Check Stock   │                          │ Split Bill   │ │
+    └───────────────┘                          │ Equal/Custom │ │
+                                               │              │ │
+                                    ┌──────────▼──┐    ┌─────▼──────┐
+                                    │ Track       │    │ Payment    │
+                                    │ Payment     │    │ Dashboard  │
+                                    │ Status      │    │ Mark Paid  │
+                                    └─────────────┘    └────────────┘
+                                            │               │
+                                            ▼               ▼
+                                    ┌─────────────────────────┐
+                                    │     📱 PICKUP           │
+                                    │  Walk in with order #   │
+                                    │  Collect in 1-2 minutes │
+                                    └─────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐  │
+│  │ 🔐 AUTH          │  │ 💳 PAYMENT       │  │ 📦 ORDER STATUS  │  │
+│  │                  │  │                  │  │                  │  │
+│  │ Admin: Token     │  │ UPI (QR via      │  │ Pending ──▶      │  │
+│  │ Customer: Mobile │  │ qrserver.com)    │  │ Preparing ──▶    │  │
+│  │ + Password       │  │ Pay on Pickup    │  │ Ready ──▶        │  │
+│  └──────────────────┘  └──────────────────┘  │ Collected        │  │
+│                                               │ Cancelled        │  │
+│  ┌──────────────────┐  ┌──────────────────┐  └──────────────────┘  │
+│  │ 🔔 NOTIFICATIONS │  │ 🔍 TRACKING      │                       │
+│  │                  │  │                  │                       │
+│  │ Toast popups     │  │ By Order #       │                       │
+│  │ Admin auto-      │  │ (GP-1001)        │                       │
+│  │ refresh (30s)    │  │ Status Timeline  │                       │
+│  └──────────────────┘  └──────────────────┘                       │
+└─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 WHAT IS GROCERY PICK?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GroceryPick is a grocery pre-order and pickup web app.
+
+The problem it solves:
+  You order groceries online, but instead of waiting for delivery,
+  you pick them up from the store at a scheduled time. Store staff
+  prepares your order in advance.
+
+What people can do:
+  • Browse groceries by category, search products
+  • Add items to cart, place orders (UPI or pay at pickup)
+  • Get an order number to track status
+    (pending → preparing → ready → collected)
+  • Register as a customer → view order history, reorder past orders
+  • Create/join groups with family/roommates → share a cart, split bills
+  • Admin manages products, orders, daily offers from a dashboard
+
+Tech stack:
+  Django REST Framework (backend) + React.js (frontend)
+  • Single grocery store
+  • No delivery — pickup only
+  • No real payments — order confirmation flow
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  WHAT PROBLEMS DOES THIS SOLVE?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ⏱ Wasted time in-store
+   → Pre-order & pick up in 1-2 minutes instead of
+     walking aisles + waiting in checkout lines.
+
+2. 🚚 Delivery friction
+   → Free pickup, no minimum order, collect anytime.
+     No delivery fees, no missed delivery windows.
+
+3. 👥 Group bill splitting headache
+   → Shared cart + auto bill split (equal/custom) +
+     per-person payment tracking. No manual calculations.
+
+4. 🔍 Order uncertainty
+   → Real-time status (pending → preparing → ready → collected)
+     by order number. Customers know exactly when to come.
+
+5. 📊 Admin complexity for small stores
+   → Simple dashboard: add products, update stock,
+     set daily offers, manage orders. No technical team needed.
