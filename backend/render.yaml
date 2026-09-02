@@ -1,9 +1,3 @@
-databases:
-  - name: grocerypick-db
-    plan: free
-    databaseName: grocerypick
-    user: grocerypick
-
 services:
   - type: web
     name: grocerypick-api
@@ -24,9 +18,7 @@ services:
       - key: DJANGO_CORS_ALLOWED_ORIGINS
         sync: false
       - key: DATABASE_URL
-        fromDatabase:
-          name: grocerypick-db
-          property: connectionString
+        sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY
