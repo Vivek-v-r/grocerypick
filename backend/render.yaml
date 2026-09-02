@@ -4,7 +4,7 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
-    startCommand: python manage.py migrate --noinput && gunicorn groceryproject.wsgi:application
+    startCommand: python manage.py ensure_admin && python manage.py migrate --noinput && gunicorn groceryproject.wsgi:application
     healthCheckPath: /api/products/
     envVars:
       - key: PYTHON_VERSION
@@ -25,3 +25,9 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
+      - key: ADMIN_USERNAME
+        value: "Vivek"
+      - key: ADMIN_EMAIL
+        value: "vivekviv8000@gmail.com"
+      - key: ADMIN_PASSWORD
+        value: "GroceryPick@2026"
