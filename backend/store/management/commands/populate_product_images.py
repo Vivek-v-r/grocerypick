@@ -44,6 +44,58 @@ def _candidate_files(product_name):
     return names
 
 
+def attach_images(force=False):
+    """Attach bundled product photos to products without one.
+
+    Idempotent: only products with an empty image field are touched unless
+    ``force`` is set. Returns a summary dict.
+    """
+    media_products_dir = os.path.join(settings.MEDIA_ROOT, 'products')
+
+    if force:
+        queryset = Product.objects.all()
+    else:
+        queryset = Product.objects.filter(Q(image='') | Q(image__isnull=True))
+
+    attached = skipped = missing = 0
+    errors = []
+
+    for product in queryset:
+        source_path = None
+        source_name = None
+        for candidate in _candidate_files(product.name):
+            path = os.path.join(media_products_dir, candidate)
+            if os.path.exists(path):
+                source_path = path
+                source_name = candidate
+                break
+
+        if not source_path:
+            missing += 1
+            continue
+
+        try:
+            if isinstance(default_storage, FileSystemStorage):
+                # File already lives in MEDIA_ROOT; just point the field at it.
+                product.image.name = f'products/{source_name}'
+                product.save(update_fields=['image'])
+            else:
+                # Remote storage (e.g. Cloudinary): upload the bundled file.
+                with open(source_path, 'rb') as handle:
+                    product.image.save(source_name, File(handle), save=True)
+            attached += 1
+        except Exception as exc:  # noqa: BLE001
+            skipped += 1
+            errors.append((product.name, str(exc)))
+
+    return {
+        'attached': attached,
+        'skipped': skipped,
+        'missing': missing,
+        'errors': errors,
+    }
+
+
 class Command(BaseCommand):
     help = 'Attach bundled product images to products that do not have one yet'
 
@@ -55,47 +107,12 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        force = options['force']
-        media_products_dir = os.path.join(settings.MEDIA_ROOT, 'products')
-
-        if force:
-            queryset = Product.objects.all()
-        else:
-            queryset = Product.objects.filter(Q(image='') | Q(image__isnull=True))
-
-        attached = skipped = missing = 0
-
-        for product in queryset:
-            source_path = None
-            source_name = None
-            for candidate in _candidate_files(product.name):
-                path = os.path.join(media_products_dir, candidate)
-                if os.path.exists(path):
-                    source_path = path
-                    source_name = candidate
-                    break
-
-            if not source_path:
-                missing += 1
-                continue
-
-            try:
-                if isinstance(default_storage, FileSystemStorage):
-                    # File already lives in MEDIA_ROOT; just point the field at it.
-                    product.image.name = f'products/{source_name}'
-                    product.save(update_fields=['image'])
-                else:
-                    # Remote storage (e.g. Cloudinary): upload the bundled file.
-                    with open(source_path, 'rb') as handle:
-                        product.image.save(source_name, File(handle), save=True)
-                attached += 1
-            except Exception as exc:  # noqa: BLE001
-                skipped += 1
-                self.stderr.write(f'Failed for "{product.name}": {exc}')
-
+        result = attach_images(force=options['force'])
+        for name, error in result['errors']:
+            self.stderr.write(f'Failed for "{name}": {error}')
         self.stdout.write(
             self.style.SUCCESS(
-                f'Images attached: {attached}, skipped: {skipped}, '
-                f'no matching file: {missing}'
+                f"Images attached: {result['attached']}, skipped: {result['skipped']}, "
+                f"no matching file: {result['missing']}"
             )
         )
