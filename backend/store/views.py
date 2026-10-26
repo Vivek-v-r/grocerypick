@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, get_user_model, logout
+from django.conf import settings
 
 from django.db.models import Count, Q
 from .models import Category, Product, Order, OrderItem, StoreSettings, Customer, DailyOffer, ShoppingGroup, GroupMember, SharedCartItem, BillSplit, PaymentStatus
@@ -354,6 +355,36 @@ def customer_login(request):
     return Response({
         'token': token,
         'customer': CustomerProfileSerializer(customer).data
+    })
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def customer_demo_login(request):
+    """
+    One-click demo account so someone reviewing the project can try group
+    shopping, bill splitting and orders without registering.
+
+    Returns the same shape as customer_login. Disable with DEMO_LOGIN=False.
+    """
+    if not getattr(settings, 'DEMO_LOGIN_ENABLED', True):
+        return Response({'error': 'Demo login is disabled'}, status=status.HTTP_403_FORBIDDEN)
+
+    from django.contrib.auth.hashers import make_password
+
+    customer, created = Customer.objects.get_or_create(
+        mobile=settings.DEMO_CUSTOMER_MOBILE,
+        defaults={
+            'name': 'Demo Customer',
+            'password': make_password(settings.DEMO_ACCOUNT_PASSWORD),
+        },
+    )
+
+    token = customer.generate_token()
+    return Response({
+        'token': token,
+        'customer': CustomerProfileSerializer(customer).data,
+        'created': created,
     })
 
 

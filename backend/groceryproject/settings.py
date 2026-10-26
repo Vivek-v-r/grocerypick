@@ -160,3 +160,9 @@ STORE_NAME = "GroceryPick"
 STORE_UPI_ID = "grocerypick@upi"
 ORDER_PREFIX = "GP"
 ORDER_START = 1001
+
+# One-click demo login, so people reviewing the project can try it without
+# registering. Set DJANGO_DEMO_LOGIN=False in production to switch it off.
+DEMO_LOGIN_ENABLED = os.getenv('DJANGO_DEMO_LOGIN', 'True').lower() in ('1', 'true', 'yes')
+DEMO_CUSTOMER_MOBILE = os.getenv('DEMO_CUSTOMER_MOBILE', '9000000000')
+DEMO_ACCOUNT_PASSWORD = os.getenv('DEMO_ACCOUNT_PASSWORD', 'demo-account-not-for-login')

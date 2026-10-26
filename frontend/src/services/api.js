@@ -114,6 +114,7 @@ export const getDashboardStats = () => api.get("/admin/dashboard/");
 // Customer Auth
 export const customerRegister = (data) => api.post("/customer/register/", data);
 export const customerLogin = (data) => api.post("/customer/login/", data);
+export const customerDemoLogin = () => api.post("/customer/demo-login/");
 export const customerLogout = () => api.post("/customer/logout/");
 export const customerProfile = () => api.get("/customer/profile/");
 export const customerUpdateProfile = (data) => api.put("/customer/profile/", data);

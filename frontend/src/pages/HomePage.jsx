@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getProducts, getCategories, getStoreSettings, getActiveOffers } from "../services/api";
+import { useCustomerAuth } from "../context/CustomerAuthContext";
 import ProductCard from "../components/ProductCard";
 
 export default function HomePage() {
@@ -11,6 +12,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const { isLoggedIn } = useCustomerAuth();
 
   useEffect(() => {
     setLoading(true);
@@ -149,6 +151,102 @@ export default function HomePage() {
               <p>{s.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Shopping Groups — one cart, four roommates */}
+      <section className="group-section">
+        <div className="section-title">One cart. Four roommates. Zero arguments.</div>
+        <div className="section-sub">
+          Shopping Groups let everyone add what they need to a single cart — then split
+          the bill without a calculator.
+        </div>
+
+        <div className="group-showcase">
+          {/* Preview card */}
+          <div className="group-preview">
+            <div className="group-preview-top">
+              <div className="group-avatars">
+                <span>V</span>
+                <span>R</span>
+                <span>S</span>
+                <span className="group-avatar-more">+1</span>
+              </div>
+              <div className="group-preview-label">Flat 302 · 4 members</div>
+            </div>
+
+            <div className="group-cart">
+              <div className="group-cart-row">
+                <span className="group-cart-item">Basmati Rice 1kg</span>
+                <span className="group-cart-by">Aarav</span>
+                <strong>₹120</strong>
+              </div>
+              <div className="group-cart-row">
+                <span className="group-cart-item">Amul Milk 1L</span>
+                <span className="group-cart-by">Riya</span>
+                <strong>₹60</strong>
+              </div>
+              <div className="group-cart-row">
+                <span className="group-cart-item">Tomatoes 1kg</span>
+                <span className="group-cart-by">Sam</span>
+                <strong>₹30</strong>
+              </div>
+            </div>
+
+            <div className="group-cart-total">
+              <span>Split 4 ways</span>
+              <strong>₹52.50 each</strong>
+            </div>
+          </div>
+
+          {/* Steps */}
+          <div className="group-steps">
+            {[
+              {
+                num: "1",
+                title: "Create a group",
+                desc: "Name it and get an 8-character invite code.",
+              },
+              {
+                num: "2",
+                title: "Roommates join",
+                desc: "They enter the code once and land in the same cart.",
+              },
+              {
+                num: "3",
+                title: "Shop together",
+                desc: "Every item shows who added it, so nobody has to guess.",
+              },
+              {
+                num: "4",
+                title: "Split the bill",
+                desc: "Equal or custom shares, with payment marked per person.",
+              },
+            ].map((s) => (
+              <div className="group-step" key={s.num}>
+                <span className="group-step-num">{s.num}</span>
+                <div>
+                  <h3>{s.title}</h3>
+                  <p>{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="group-actions">
+          {isLoggedIn ? (
+            <Link to="/groups" className="btn-primary group-btn">
+              Open Shopping Groups
+            </Link>
+          ) : (
+            <>
+              <Link to="/customer/login" className="btn-primary group-btn">
+                Try it with the demo account
+              </Link>
+              <span className="group-actions-note">No signup needed — one click in.</span>
+            </>
+          )}
         </div>
       </section>
 

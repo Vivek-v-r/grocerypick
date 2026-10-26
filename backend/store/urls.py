@@ -36,6 +36,7 @@ urlpatterns = [
     # Customer Auth
     path('customer/register/', views.customer_register),
     path('customer/login/', views.customer_login),
+    path('customer/demo-login/', views.customer_demo_login),
     path('customer/logout/', views.customer_logout),
     path('customer/profile/', views.customer_profile),
     path('customer/forgot-password/', views.customer_forgot_password),

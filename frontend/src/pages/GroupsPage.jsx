@@ -5,17 +5,31 @@ import GroupManager from "../components/GroupManager";
 import SharedCart from "../components/SharedCart";
 import BillSplitter from "../components/BillSplitter";
 import PaymentDashboard from "../components/PaymentDashboard";
-import { groupDetails } from "../services/api";
+import { groupDetails, customerDemoLogin } from "../services/api";
 import toast from "react-hot-toast";
 
 export default function GroupsPage() {
-  const { isLoggedIn } = useCustomerAuth();
+  const { isLoggedIn, login } = useCustomerAuth();
   const navigate = useNavigate();
 
   const [activeGroup, setActiveGroup] = useState(null);
   const [groupData, setGroupData] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [demoLoading, setDemoLoading] = useState(false);
+
+  const handleDemo = async () => {
+    setDemoLoading(true);
+    try {
+      const res = await customerDemoLogin();
+      login(res.data.token, res.data.customer);
+      toast.success("Signed in with the demo account");
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Demo login unavailable");
+    } finally {
+      setDemoLoading(false);
+    }
+  };
 
   if (!isLoggedIn) {
     return (
@@ -27,9 +41,13 @@ export default function GroupsPage() {
           <button className="place-order-btn" onClick={() => navigate("/customer/login")} style={{ width: '100%', marginBottom: 12 }}>
             Sign In
           </button>
-          <button className="btn-sm btn-secondary" onClick={() => navigate("/customer/register")} style={{ width: '100%' }}>
+          <button className="btn-sm btn-secondary" onClick={() => navigate("/customer/register")} style={{ width: '100%', marginBottom: 12 }}>
             Create Account
           </button>
+          <button className="btn-sm btn-secondary demo-login-btn" onClick={handleDemo} disabled={demoLoading}>
+            {demoLoading ? "⏳ Opening demo..." : "Try the demo account"}
+          </button>
+          <p className="demo-login-note">No signup needed — jump straight into a shared cart.</p>
         </div>
       </div>
     );

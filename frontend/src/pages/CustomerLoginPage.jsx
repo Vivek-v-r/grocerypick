@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { customerLogin } from "../services/api";
+import { customerLogin, customerDemoLogin } from "../services/api";
 import { useCustomerAuth } from "../context/CustomerAuthContext";
 import toast from "react-hot-toast";
 
@@ -22,6 +22,20 @@ export default function CustomerLoginPage() {
       navigate("/customer/dashboard");
     } catch (err) {
       toast.error(err.response?.data?.error || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDemo = async () => {
+    setLoading(true);
+    try {
+      const res = await customerDemoLogin();
+      login(res.data.token, res.data.customer);
+      toast.success("Signed in with the demo account");
+      navigate("/groups");
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Demo login unavailable");
     } finally {
       setLoading(false);
     }
@@ -59,6 +73,17 @@ export default function CustomerLoginPage() {
             {loading ? "⏳ Signing in..." : "Sign In"}
           </button>
         </form>
+        <button
+          type="button"
+          className="btn-secondary demo-login-btn"
+          onClick={handleDemo}
+          disabled={loading}
+        >
+          {loading ? "⏳ Signing in..." : "Try the demo account"}
+        </button>
+        <p className="demo-login-note">
+          No signup needed — explore orders and group shopping in one click.
+        </p>
         <div className="customer-auth-links">
           <Link to="/customer/register">Create an account</Link>
           <Link to="/customer/forgot-password">Forgot password?</Link>
