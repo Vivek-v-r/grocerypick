@@ -6,6 +6,8 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, get_user_model, logout
 from django.conf import settings
 
+import os
+
 from django.db.models import Count, Q
 from .models import Category, Product, Order, OrderItem, StoreSettings, Customer, DailyOffer, ShoppingGroup, GroupMember, SharedCartItem, BillSplit, PaymentStatus
 from .serializers import (
@@ -56,7 +58,11 @@ def admin_logout(request):
 @permission_classes([AllowAny])
 def store_settings(request):
     settings_obj, _ = StoreSettings.objects.get_or_create(pk=1)
-    return Response(StoreSettingsSerializer(settings_obj).data)
+    data = StoreSettingsSerializer(settings_obj).data
+    # Deployment marker: Render injects the deployed commit; helps confirm which
+    # build is actually serving requests.
+    data['git_commit'] = os.getenv('RENDER_GIT_COMMIT', '')[:7]
+    return Response(data)
 
 
 @api_view(['PUT'])
