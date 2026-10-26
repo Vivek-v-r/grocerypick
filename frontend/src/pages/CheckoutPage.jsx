@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { useStoreSettings } from "../context/StoreContext";
 import { useCustomerAuth } from "../context/CustomerAuthContext";
 import { customerProfile, createOrder } from "../services/api";
 import toast from "react-hot-toast";
 
 export default function CheckoutPage() {
   const { cart, total, clearCart } = useCart();
-  const { storeSettings, loadingStore } = useStoreSettings();
   const { customer, isLoggedIn } = useCustomerAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -22,7 +20,9 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
+    // Guard runs once on mount: empty cart should start from the catalog.
     if (cart.length === 0) navigate("/products");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -34,9 +34,9 @@ export default function CheckoutPage() {
         phone: customer.mobile || f.phone,
       }));
       // Try to get latest saved address from profile
-      customerProfile().then((res) => {
-        // We don't store address on customer, so just use name/phone
-      }).catch(() => {});
+      customerProfile().catch(() => {
+        // customer address is not stored server-side; ignore.
+      });
     }
   }, [isLoggedIn, customer]);
 

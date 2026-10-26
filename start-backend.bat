@@ -2,4 +2,8 @@
 echo Starting GroceryPick Backend...
 cd /d "%~dp0backend"
 set DJANGO_DEBUG=True
-py -3 manage.py runserver 127.0.0.1:8000
+if exist "venv\Scripts\python.exe" (
+    venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000
+) else (
+    py -3 manage.py runserver 127.0.0.1:8000
+)

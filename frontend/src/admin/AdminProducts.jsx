@@ -36,7 +36,7 @@ export default function AdminProducts() {
     setLoading(true);
     Promise.all([adminGetProducts(), getCategories()])
       .then(([p, c]) => {
-        if (process.env.NODE_ENV !== "production")
+        if (import.meta.env.DEV)
           console.log(
             "AdminProducts: loaded",
             Array.isArray(p.data) ? p.data.length : p.data,
@@ -100,7 +100,7 @@ export default function AdminProducts() {
       toast.success(editing ? "Product updated!" : "Product added!");
       setShowModal(false);
       load();
-    } catch (err) {
+    } catch {
       toast.error("Failed to save product");
     } finally {
       setSaving(false);

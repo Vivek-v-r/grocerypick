@@ -17,7 +17,7 @@ export default function AdminLoginPage() {
         password: form.password,
       };
       const res = await adminLogin(payload);
-      if (process.env.NODE_ENV !== "production")
+      if (import.meta.env.DEV)
         console.debug("[AdminLoginPage] login response", res.data);
       login(res.data.token, res.data.username);
       toast.success("Welcome back!");

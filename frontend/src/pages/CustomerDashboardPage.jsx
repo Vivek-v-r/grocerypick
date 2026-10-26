@@ -23,7 +23,7 @@ export default function CustomerDashboardPage() {
       })
       .catch(() => { logout(); navigate("/customer/login"); })
       .finally(() => setLoading(false));
-  }, []);
+  }, [isLoggedIn, logout, navigate]);
 
   const handleLogout = async () => {
     logout();

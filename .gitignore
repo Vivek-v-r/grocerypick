@@ -6,7 +6,9 @@ db.sqlite3
 *.db
 backend/venv/
 backend/staticfiles/
-backend/media/
+backend/media/*
+!backend/media/products/
+!backend/media/offers/
 backend/.env
 backend/.env.*
 *.log
@@ -32,4 +34,3 @@ Thumbs.db
 # ---- Tooling / misc ----
 .codebuddy/
 backend.zip
-.codebuddy

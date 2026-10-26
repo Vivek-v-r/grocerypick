@@ -6,7 +6,7 @@ import CartDrawer from "./CartDrawer";
 
 export default function Navbar() {
   const { count } = useCart();
-  const { isLoggedIn, customer, logout } = useCustomerAuth();
+  const { isLoggedIn, logout } = useCustomerAuth();
   const [cartOpen, setCartOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);

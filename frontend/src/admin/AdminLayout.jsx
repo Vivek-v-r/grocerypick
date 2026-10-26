@@ -31,7 +31,9 @@ export default function AdminLayout() {
   const handleLogout = async () => {
     try {
       await adminLogout();
-    } catch {}
+    } catch {
+      // ignore — session is cleared locally
+    }
     logout();
     toast.success("Logged out");
   };

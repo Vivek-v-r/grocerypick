@@ -23,7 +23,7 @@ export default function HomePage() {
       getActiveOffers(),
     ])
       .then(([p, c, s, o]) => {
-        if (process.env.NODE_ENV !== "production")
+        if (import.meta.env.DEV)
           console.log(
             "HomePage: fetched products",
             Array.isArray(p?.data) ? p.data.length : p?.data,

@@ -43,7 +43,7 @@ export default function OrderSuccessPage() {
         .then((r) => setOrder(r.data))
         .finally(() => setLoading(false));
     }
-  }, []);
+  }, [order, orderNumber]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(orderNumber);

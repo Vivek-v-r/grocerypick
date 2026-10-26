@@ -8,7 +8,7 @@ export default function AdminDebugPanel() {
     try {
       setToken(localStorage.getItem("adminToken") || "");
       setHeader(window.__lastAuthHeader || "");
-    } catch (e) {
+    } catch {
       setToken("error");
       setHeader("error");
     }
@@ -20,7 +20,7 @@ export default function AdminDebugPanel() {
     return () => clearInterval(id);
   }, []);
 
-  if (process.env.NODE_ENV === "production") return null;
+  if (import.meta.env.PROD) return null;
 
   return (
     <div

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { trackOrder } from "../services/api";
 import { useStoreSettings } from "../context/StoreContext";
@@ -26,25 +26,30 @@ export default function TrackOrderPage() {
   const [error, setError] = useState("");
   const { storeSettings, loadingStore } = useStoreSettings();
 
-  useEffect(() => {
-    if (searchParams.get("order")) handleTrack(searchParams.get("order"));
-  }, []);
+  const handleTrack = useCallback(
+    async (num) => {
+      const orderNum = (num || input).trim().toUpperCase();
+      if (!orderNum) return;
+      setLoading(true);
+      setError("");
+      try {
+        const res = await trackOrder(orderNum);
+        setOrder(res.data);
+      } catch {
+        setError("Order not found. Please check your order number.");
+        setOrder(null);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [input],
+  );
 
-  const handleTrack = async (num) => {
-    const orderNum = (num || input).trim().toUpperCase();
-    if (!orderNum) return;
-    setLoading(true);
-    setError("");
-    try {
-      const res = await trackOrder(orderNum);
-      setOrder(res.data);
-    } catch {
-      setError("Order not found. Please check your order number.");
-      setOrder(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const orderParam = searchParams.get("order");
+    if (orderParam) handleTrack(orderParam);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const currentStep = order ? (STATUS_ORDER[order.status] ?? 0) : -1;
 

@@ -10,10 +10,10 @@ export function AuthProvider({ children }) {
   );
 
   useEffect(() => {
-    let token = null;
+    let token;
     try {
       token = localStorage.getItem("adminToken");
-    } catch (e) {
+    } catch {
       token = null;
     }
     // ensure axios has the token in memory (fallback for browsers blocking localStorage)
@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
     try {
       localStorage.setItem("adminToken", token);
       localStorage.setItem("adminName", username);
-    } catch (e) {
+    } catch {
       // localStorage unavailable — rely on module token
       document.cookie = `adminToken=${token}; path=/; Secure; SameSite=Strict`;
       document.cookie = `adminName=${encodeURIComponent(username)}; path=/; Secure; SameSite=Strict`;
@@ -41,7 +41,9 @@ export function AuthProvider({ children }) {
     try {
       document.cookie = "adminToken=; path=/; max-age=0";
       document.cookie = "adminName=; path=/; max-age=0";
-    } catch (e) {}
+    } catch {
+      // ignore
+    }
     setAuthToken(null);
     setIsAdmin(false);
     setAdminName("");

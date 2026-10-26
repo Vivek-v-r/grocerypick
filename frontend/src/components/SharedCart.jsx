@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { groupCart, deleteCartItem, toggleItemPurchased } from "../services/api";
 import AddItemForm from "./AddItemForm";
 import toast from "react-hot-toast";
@@ -7,7 +7,7 @@ export default function SharedCart({ groupId, onItemsChange }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const loadItems = () => {
+  const loadItems = useCallback(() => {
     setLoading(true);
     groupCart(groupId)
       .then((res) => {
@@ -16,11 +16,11 @@ export default function SharedCart({ groupId, onItemsChange }) {
       })
       .catch(() => toast.error("Failed to load cart"))
       .finally(() => setLoading(false));
-  };
+  }, [groupId, onItemsChange]);
 
   useEffect(() => {
     if (groupId) loadItems();
-  }, [groupId]);
+  }, [groupId, loadItems]);
 
   const handleDelete = async (itemId) => {
     try {

@@ -18,4 +18,15 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    rules: {
+      // Data fetching in effects (load-on-mount) is the standard pattern here;
+      // this new compiler-style rule flags every synchronous setState inside an
+      // effect and would require a full fetch/library refactor to satisfy.
+      "react-hooks/set-state-in-effect": "off",
+      // Context files intentionally export a Provider component together with
+      // a use* hook — splitting them is unnecessary for this project.
+      "react-refresh/only-export-components": "off",
+    },
+  },
 ])

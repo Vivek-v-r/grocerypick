@@ -1,5 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { setAuthToken } from "../services/api";
+import { createContext, useContext, useState } from "react";
 
 const CustomerAuthContext = createContext();
 
@@ -28,7 +27,9 @@ export function CustomerAuthProvider({ children }) {
     try {
       localStorage.setItem(CUSTOMER_TOKEN_KEY, newToken);
       localStorage.setItem(CUSTOMER_DATA_KEY, JSON.stringify(customerData));
-    } catch (e) {}
+    } catch {
+      // ignore — storage unavailable
+    }
     setToken(newToken);
     setCustomer(customerData);
   };
@@ -37,7 +38,9 @@ export function CustomerAuthProvider({ children }) {
     try {
       localStorage.removeItem(CUSTOMER_TOKEN_KEY);
       localStorage.removeItem(CUSTOMER_DATA_KEY);
-    } catch (e) {}
+    } catch {
+      // ignore — storage unavailable
+    }
     setToken(null);
     setCustomer(null);
   };
@@ -45,7 +48,9 @@ export function CustomerAuthProvider({ children }) {
   const updateCustomer = (customerData) => {
     try {
       localStorage.setItem(CUSTOMER_DATA_KEY, JSON.stringify(customerData));
-    } catch (e) {}
+    } catch {
+      // ignore — storage unavailable
+    }
     setCustomer(customerData);
   };
 

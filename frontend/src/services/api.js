@@ -22,7 +22,7 @@ try {
   if (initialToken) {
     setAuthToken(initialToken);
   }
-} catch (e) {
+} catch {
   // ignore — localStorage unavailable
 }
 
@@ -34,7 +34,7 @@ api.interceptors.request.use((config) => {
       : localStorage.getItem("customerToken") || localStorage.getItem("adminToken");
     if (token) config.headers.Authorization = `Token ${token}`;
     else if (moduleToken) config.headers.Authorization = `Token ${moduleToken}`;
-  } catch (e) {
+  } catch {
     if (moduleToken) config.headers.Authorization = `Token ${moduleToken}`;
   }
   return config;
@@ -42,7 +42,7 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => {
-    if (process.env.NODE_ENV !== "production") {
+    if (import.meta.env.DEV) {
       try {
         console.debug(
           "[API]",
@@ -50,7 +50,9 @@ api.interceptors.response.use(
           response.config.method.toUpperCase(),
           response.config.url,
         );
-      } catch (e) {}
+      } catch {
+        // ignore debug logging errors
+      }
     }
     return response;
   },
@@ -61,7 +63,9 @@ api.interceptors.response.use(
         localStorage.removeItem("adminName");
         localStorage.removeItem("customerToken");
         localStorage.removeItem("customer");
-      } catch (e) {}
+      } catch {
+        // ignore — storage unavailable
+      }
       if (window.location.pathname.startsWith("/admin")) {
         window.location.href = "/admin";
       }

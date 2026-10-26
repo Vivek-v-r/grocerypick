@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useCallback, useState, useEffect, Fragment } from "react";
 import { adminGetOrders, adminUpdateOrderStatus } from "../services/api";
 import toast from "react-hot-toast";
 
@@ -17,17 +17,20 @@ export default function AdminOrders() {
   const [filter, setFilter] = useState("");
   const [expanded, setExpanded] = useState(null);
 
-  const load = (f = filter) => {
-    setLoading(true);
-    const params = f ? { status: f } : {};
-    adminGetOrders(params)
-      .then((r) => setOrders(r.data))
-      .finally(() => setLoading(false));
-  };
+  const load = useCallback(
+    (f = filter) => {
+      setLoading(true);
+      const params = f ? { status: f } : {};
+      adminGetOrders(params)
+        .then((r) => setOrders(r.data))
+        .finally(() => setLoading(false));
+    },
+    [filter],
+  );
 
   useEffect(() => {
     load();
-  }, [filter]);
+  }, [load]);
 
   const updateStatus = async (id, status, paymentStatus) => {
     const data = { status };

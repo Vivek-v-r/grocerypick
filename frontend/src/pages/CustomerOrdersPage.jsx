@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCustomerAuth } from "../context/CustomerAuthContext";
 import { customerOrders, reorder } from "../services/api";
@@ -27,7 +27,7 @@ export default function CustomerOrdersPage() {
     return "";
   };
 
-  const loadOrders = () => {
+  const loadOrders = useCallback(() => {
     setLoading(true);
     const statusParam = getStatusFilter(filter);
     const params = statusParam ? { status: statusParam } : {};
@@ -35,12 +35,12 @@ export default function CustomerOrdersPage() {
       .then((res) => setOrders(res.data))
       .catch(() => { logout(); navigate("/customer/login"); })
       .finally(() => setLoading(false));
-  };
+  }, [filter, logout, navigate]);
 
   useEffect(() => {
     if (!isLoggedIn) { navigate("/customer/login"); return; }
     loadOrders();
-  }, [filter]);
+  }, [filter, isLoggedIn, loadOrders, navigate]);
 
   const handleReorder = async (orderId) => {
     setReordering(orderId);
