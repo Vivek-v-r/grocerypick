@@ -118,7 +118,26 @@ export const getDashboardStats = () => api.get("/admin/dashboard/");
 // Customer Auth
 export const customerRegister = (data) => api.post("/customer/register/", data);
 export const customerLogin = (data) => api.post("/customer/login/", data);
-export const customerDemoLogin = () => api.post("/customer/demo-login/");
+export const customerDemoLogin = async () => {
+  // The free Render instance can be asleep on the very first click, which
+  // surfaces as a 502/503 or a network error. Retry briefly before giving up.
+  const delays = [0, 2000, 5000, 10000];
+  let lastError;
+
+  for (const delay of delays) {
+    if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
+    try {
+      return await api.post("/customer/demo-login/");
+    } catch (err) {
+      lastError = err;
+      const status = err?.response?.status;
+      const retryable = !err?.response || status >= 500;
+      if (!retryable) break;
+    }
+  }
+
+  throw lastError;
+};
 export const customerLogout = () => api.post("/customer/logout/");
 export const customerProfile = () => api.get("/customer/profile/");
 export const customerUpdateProfile = (data) => api.put("/customer/profile/", data);

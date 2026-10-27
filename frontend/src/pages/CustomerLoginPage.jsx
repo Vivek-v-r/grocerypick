@@ -35,7 +35,14 @@ export default function CustomerLoginPage() {
       toast.success("Signed in with the demo account");
       navigate("/groups");
     } catch (err) {
-      toast.error(err.response?.data?.error || "Demo login unavailable");
+      const status = err.response?.status;
+      toast.error(
+        err.response?.data?.error ||
+          err.response?.data?.detail ||
+          (status
+            ? `Demo login failed (${status}). Please try again in a few seconds.`
+            : "Can't reach the server. Check your connection and try again."),
+      );
     } finally {
       setLoading(false);
     }
