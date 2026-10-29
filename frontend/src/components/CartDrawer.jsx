@@ -1,5 +1,6 @@
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { productIcon } from '../utils/productIcons';
 
 export default function CartDrawer({ onClose }) {
   const { cart, removeFromCart, updateQuantity, total, count } = useCart();
@@ -27,7 +28,7 @@ export default function CartDrawer({ onClose }) {
                 <div className="cart-item-img">
                   {item.image_url
                     ? <img src={item.image_url} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    : '🛍️'}
+                    : <span aria-hidden="true">{productIcon(item)}</span>}
                 </div>
                 <div className="cart-item-info">
                   <div className="cart-item-name">{item.name}</div>

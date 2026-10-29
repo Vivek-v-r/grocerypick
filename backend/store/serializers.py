@@ -1,24 +1,5 @@
-from django.conf import settings
-
 from rest_framework import serializers
 from .models import Category, Product, Order, OrderItem, StoreSettings, Customer, DailyOffer, ShoppingGroup, GroupMember, SharedCartItem, BillSplit, PaymentStatus
-
-import os
-
-
-def bundled_product_image(product_name):
-    """Return the bundled image path ('products/x.jpg') for a product name.
-
-    The files ship in backend/media/products, so this works even when the
-    database image field is empty or the storage backend is unreachable.
-    """
-    from .management.commands.populate_product_images import _candidate_files
-
-    products_dir = os.path.join(settings.MEDIA_ROOT, 'products')
-    for candidate in _candidate_files(product_name):
-        if os.path.exists(os.path.join(products_dir, candidate)):
-            return f'products/{candidate}'
-    return None
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -45,13 +26,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_image_url(self, obj):
         request = self.context.get('request')
+        if obj.image and request:
+            return request.build_absolute_uri(obj.image.url)
         if obj.image:
-            url = obj.image.url
-            return request.build_absolute_uri(url) if request else url
-        bundled = bundled_product_image(obj.name)
-        if bundled:
-            path = settings.MEDIA_URL + bundled
-            return request.build_absolute_uri(path) if request else path
+            return obj.image.url
         return None
 
 

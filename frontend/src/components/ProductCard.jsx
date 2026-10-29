@@ -4,12 +4,7 @@ import { useCustomerAuth } from '../context/CustomerAuthContext';
 import { myGroups, addCartItem } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-
-const CATEGORY_ICONS = {
-  'Fruits & Vegetables': '🥦', 'Dairy & Eggs': '🥛', 'Bakery': '🍞',
-  'Beverages': '🧃', 'Snacks': '🍿', 'Grains & Pulses': '🌾',
-  'Oil & Spices': '🧂', 'Personal Care': '🧴',
-};
+import { productIcon } from '../utils/productIcons';
 
 export default function ProductCard({ product, index = 0 }) {
   const { cart, addToCart, updateQuantity } = useCart();
@@ -75,7 +70,7 @@ export default function ProductCard({ product, index = 0 }) {
         <div className="product-img-wrap">
           {product.image_url
             ? <img src={product.image_url} alt={product.name} loading="lazy" />
-            : <span className="product-img-placeholder">{CATEGORY_ICONS[product.category_name] || '🛍️'}</span>
+            : <span className="product-img-placeholder" aria-hidden="true">{productIcon(product)}</span>
           }
         </div>
         <div className="product-body">

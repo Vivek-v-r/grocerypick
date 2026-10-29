@@ -102,36 +102,9 @@ def create_category(request):
 
 # ─── Products ─────────────────────────────────────────────────────────────────
 
-_product_images_seeded = False
-
-
-def _seed_product_images_once():
-    """Attach the bundled product photos the first time products are requested.
-
-    render.yaml starts the seeding, but if a service ever runs with a plain
-    start command the images would stay blank. Doing it here makes the seeding
-    self-contained. After the first run this is a single EXISTS query.
-    """
-    global _product_images_seeded
-    if _product_images_seeded:
-        return
-    _product_images_seeded = True
-    try:
-        if not Product.objects.filter(Q(image='') | Q(image__isnull=True)).exists():
-            return
-        from .management.commands.populate_product_images import attach_images
-        attach_images()
-    except Exception:  # noqa: BLE001 - never break the product list over images
-        pass
-
-
 class ProductListView(generics.ListAPIView):
     serializer_class = ProductSerializer
     permission_classes = [AllowAny]
-
-    def list(self, request, *args, **kwargs):
-        _seed_product_images_once()
-        return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
         qs = Product.objects.filter(is_active=True)
