@@ -386,8 +386,8 @@ export default function HomePage() {
 
       <footer className="footer">
         <p>
-          © 2024 <strong>SPIPick</strong> — Order from anywhere, Pick up in
-          minutes.
+          © 2026 <strong>SPIPick</strong> — Order from anywhere, Pick up in
+          minutes. All rights reserved.
         </p>
       </footer>
     </div>
