@@ -194,3 +194,22 @@ Owner can also **Cancel** from Pending or Preparing.
 
 - Fruits & Vegetables, Dairy & Eggs, Bakery, Beverages
 - Snacks, Grains & Pulses, Oil & Spices, Personal Care
+
+---
+
+## Live Demo
+
+**https://grocerypick-r35j.vercel.app** — one-click demo account, no signup.
+
+## Copyright & Usage
+
+© 2026 Vivek. **All rights reserved.**
+
+This project, its source code, design and assets are not open source. Copying,
+reusing, redistributing or redeploying any part of it — including presenting it
+as your own project — is not permitted without written permission.
+
+See [LICENSE](LICENSE) for the full terms.
+
+Admin credentials are not stored in this repository; they are configured through
+environment variables (`ADMIN_USERNAME`, `ADMIN_PASSWORD`) on the hosting platform.
